@@ -79,7 +79,7 @@ jobs:
 #     arch: ppc64le
 #     dist: bionic
    - name: "PPC"
-     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_scalar4
+     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_vsx4
      arch: ppc64le
      dist: bionic
 #   - name: "ARMv8 trusty"
