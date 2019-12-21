@@ -97,10 +97,10 @@ jobs:
    - name: "PPC"
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER
      arch: ppc64le
-   - name: "ARMv8 trusty"
-     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
-     arch: arm64
-     dist: trusty
+#   - name: "ARMv8 trusty"
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
+#     arch: arm64
+#     dist: trusty
 #   - os: linux
 #     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
 #     arch: arm64
