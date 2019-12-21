@@ -2,37 +2,53 @@ language: c
 compiler: gcc
 install: true
 sudo: required
-addons: {
-    apt: {
-        sources: [
-            ubuntu-toolchain-r-test
-        ],
-    packages: [
-        "gcc-7"
-    ]
-    }
-}
-matrix:
+os: linux
+
+jobs:
   include:
    - os: linux
-     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC
+     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
      arch: amd64
      dist: trusty
+     addons:
+       apt:
+        - sources: [ ubuntu-toolchain-r-test ],
+        - packages: [ "gcc-7" ]
+   - os: linux
+     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
+     arch: amd64
+     dist: trusty
+     addons: {
+        apt: {
+            sources: [
+                ubuntu-toolchain-r-test
+            ],
+        packages: [
+            "gcc-7"
+        ]
+        }
+    }
+   - os: linux
+     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
+     arch: amd64
+     dist: trusty
+     addons: {
+        apt: {
+            sources: [
+                ubuntu-toolchain-r-test
+            ],
+        packages: [
+            "gcc-7"
+        ]
+        }
+    }
+   - os: linux
+     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC
+     arch: amd64
+     dist: xenial
    - os: linux
      env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC
      arch: amd64
-     dist: trusty
-   - os: linux
-     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC
-     arch: amd64
-     dist: trusty
-   - os: linux
-     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC
-     arch: amd64
-     dist: xenial
-   - os: linux
-     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC
-     arch: amd64
      dist: xenial
    - os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC
@@ -51,9 +67,19 @@ matrix:
      arch: amd64
      dist: bionic
    - os: linux
-     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER
+     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER COMPILER_BINARY=gcc-7
      arch: ppc64le
      dist: trusty
+     addons: {
+        apt: {
+            sources: [
+                ubuntu-toolchain-r-test
+            ],
+        packages: [
+            "gcc-7"
+        ]
+        }
+    }
    - os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER
      arch: ppc64le
@@ -63,9 +89,19 @@ matrix:
      arch: ppc64le
      dist: bionic
    - os: linux
-     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
+     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 COMPILER_BINARY=gcc-7
      arch: arm64
      dist: trusty
+     addons: {
+        apt: {
+            sources: [
+                ubuntu-toolchain-r-test
+            ],
+        packages: [
+            "gcc-7"
+        ]
+        }
+    }
    - os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
      arch: arm64
@@ -76,13 +112,13 @@ matrix:
      dist: bionic
 script:
 #  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
+  - if [ ! -z "$COMPILER_BINARY" ]; then sed -i -e s+'CC  = gcc.*'+"CC  = $COMPILER_BINARY"+g make/include_${LIKWID_COMPILER}.mk; fi
   - echo "ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER}"
   - make ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER}
   - sudo make ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER} install
   - /usr/local/bin/likwid-topology -c -C -g
   - /usr/local/bin/likwid-pin -p
-  - sudo modprobe msr
-  - ls -la /dev/cpu/*
+  - if [ "${TRAVIS_CPU_ARCH}" ==  "amd64"]; then sudo modprobe msr; ls -la /dev/cpu/*; fi
   - ls -la /usr/local/sbin/*
   - make -C test streamGCC
   - /usr/local/bin/likwid-perfctr -i
