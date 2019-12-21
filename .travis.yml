@@ -98,11 +98,11 @@ script:
 #  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
   - echo "ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER} COMPILER_BINARY=${COMPILER_BINARY}"
   - if [ ! -z "$COMPILER_BINARY" ]; then sed -i -e s+'CC  = gcc.*'+"CC  = $COMPILER_BINARY"+g make/include_${LIKWID_COMPILER}.mk; grep "CC" make/include_${LIKWID_COMPILER}.mk; fi
-  - make ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER}
-  - sudo make ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER} install
+  - make ACCESSMODE="${BUILD_ACCESSMODE}" COMPILER="${LIKWID_COMPILER}"
+  - sudo make ACCESSMODE="${BUILD_ACCESSMODE}" COMPILER="${LIKWID_COMPILER}" install
   - /usr/local/bin/likwid-topology -c -C -g
   - /usr/local/bin/likwid-pin -p
   - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then sudo modprobe msr; ls -la /dev/cpu/*; ls -la /usr/local/sbin/*; fi
   - make -C test streamGCC
   - /usr/local/bin/likwid-perfctr -i
-  - /usr/local/bin/likwid-bench -t ${LIKWID_BENCHMARK} -w N:100MB:2
+  - /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2
