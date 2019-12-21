@@ -6,7 +6,8 @@ os: linux
 
 jobs:
   include:
-   - os: linux
+   - name: "AMD64 trusty accessdaemon"
+     os: linux
      env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
      arch: amd64
      dist: trusty
@@ -16,7 +17,8 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-7
-   - os: linux
+   - name: "AMD64 trusty direct"
+     os: linux
      env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
      arch: amd64
      dist: trusty
@@ -26,7 +28,8 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-7
-   - os: linux
+   - name: "AMD64 trusty perf_event"
+     os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
      arch: amd64
      dist: trusty
@@ -36,27 +39,33 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-7
-   - os: linux
+   - name: "AMD64 xenial accessdaemon"
+     os: linux
      env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
      dist: xenial
-   - os: linux
+   - name: "AMD64 xenial direct"
+     os: linux
      env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
      dist: xenial
-   - os: linux
+   - name: "AMD64 xenial perf_event"
+     os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
      dist: xenial
-   - os: linux
+   - name: "AMD64 xenial accessdaemon"
+     os: linux
      env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
      dist: bionic
-   - os: linux
+   - name: "AMD64 bionic direct"
+     os: linux
      env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
      dist: bionic
-   - os: linux
+   - name: "AMD64 bionic perf_event"
+     os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
      dist: bionic
@@ -68,11 +77,13 @@ jobs:
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
      arch: arm64
      dist: trusty
-   - os: linux
+   - name: "ARMv8 xenial"
+     os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
      arch: arm64
      dist: xenial
-   - os: linux
+   - name: "ARMv8 bionic"
+     os: linux
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
      arch: arm64
      dist: bionic
