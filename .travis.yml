@@ -7,106 +7,91 @@ os: linux
 jobs:
   include:
 #   - os: linux
-#     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
+#     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: trusty
-#     addons: {
-#        apt: {
-#            sources: [
-#                ubuntu-toolchain-r-test
-#            ],
-#        packages: [
-#            "gcc-7"
-#        ]
-#        }
-#    }
+#     addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-7
 #   - os: linux
-#     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
+#     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: trusty
-#     addons: {
-#        apt: {
-#            sources: [
-#                ubuntu-toolchain-r-test
-#            ],
-#        packages: [
-#            "gcc-7"
-#        ]
-#        }
-#    }
+#     addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-7
 #   - os: linux
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: trusty
-#     addons: {
-#        apt: {
-#            sources: [
-#                ubuntu-toolchain-r-test
-#            ],
-#        packages: [
-#            "gcc-7"
-#        ]
-#        }
-#    }
+#     addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-7
 #   - os: linux
-#     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC
+#     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: xenial
 #   - os: linux
-#     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC
+#     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: xenial
 #   - os: linux
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: xenial
 #   - os: linux
-#     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC
+#     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: bionic
 #   - os: linux
-#     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC
+#     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: bionic
 #   - os: linux
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: bionic
 #   - name: "PPC trusty"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER COMPILER_BINARY=gcc-7
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy_scalar4
 #     arch: ppc64le
 #     dist: trusty
-#     addons: {
-#        apt: {
-#            sources: [
-#                ubuntu-toolchain-r-test
-#            ],
-#        packages: [
-#            "gcc-7"
-#        ]
-#        }
-#    }
+#     addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-7
 #   - name: "PPC xenial"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_scalar4
 #     arch: ppc64le
 #     dist: xenial
 #   - name: "PPC bionic"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_scalar4
 #     arch: ppc64le
 #     dist: bionic
    - name: "PPC"
-     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER
+     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_scalar4
      arch: ppc64le
+     dist: bionic
 #   - name: "ARMv8 trusty"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
 #     arch: arm64
 #     dist: trusty
 #   - os: linux
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
 #     arch: arm64
 #     dist: xenial
 #   - os: linux
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8
+#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
 #     arch: arm64
 #     dist: bionic
 script:
@@ -120,4 +105,4 @@ script:
   - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then sudo modprobe msr; ls -la /dev/cpu/*; ls -la /usr/local/sbin/*; fi
   - make -C test streamGCC
   - /usr/local/bin/likwid-perfctr -i
-  - /usr/local/bin/likwid-bench -t copy -w N:100MB:2
+  - /usr/local/bin/likwid-bench -t ${LIKWID_BENCHMARK} -w N:100MB:2
