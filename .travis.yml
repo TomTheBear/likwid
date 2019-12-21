@@ -101,8 +101,8 @@ script:
   - sudo make ACCESSMODE="${BUILD_ACCESSMODE}" COMPILER="${LIKWID_COMPILER}" install
   - /usr/local/bin/likwid-topology -c -C -g
   - /usr/local/bin/likwid-pin -p
-  - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then sudo modprobe msr; ls -la /dev/cpu/*; ls -la /usr/local/sbin/*; fi
-  - make -C test streamGCC
-  - /usr/local/bin/likwid-perfctr -i
-  - echo "LIKWID_BENCHMARK=${LIKWID_BENCHMARK}"
-  - /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2
+#  - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then sudo modprobe msr; ls -la /dev/cpu/*; ls -la /usr/local/sbin/*; fi
+#  - make -C test streamGCC
+#  - /usr/local/bin/likwid-perfctr -i
+#  - echo "LIKWID_BENCHMARK=${LIKWID_BENCHMARK}"
+#  - /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2
