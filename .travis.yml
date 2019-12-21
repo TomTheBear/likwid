@@ -1,7 +1,15 @@
 language: c
 compiler: gcc
 install: true
-dist: trusty
+dist:
+  - trusty
+  - xenial
+  - bionic
+os: linux
+arch:
+  - amd64
+  - ppc64le
+  - arm64
 sudo: required
 addons: {
     apt: {
@@ -13,9 +21,17 @@ addons: {
     ]
     }
 }
+env:
+  - BUILD_ACCESSMODE=accessdaemon
+  - BUILD_ACCESSMODE=direct
+  - BUILD_ACCESSMODE=perf_event
 script:
-  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
-  - make && sudo make install
+#  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
+  - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then export LIKWID_COMPILER=GCC; sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk; fi
+  - if [ "${TRAVIS_CPU_ARCH}" == "ppc64le" ]; then export LIKWID_COMPILER=GCCPOWER; sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCCPOWER.mk; fi
+  - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then export LIKWID_COMPILER=GCCARMv8; sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCCARMv8.mk; fi
+  - make ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER}
+  - sudo make ACCESSMODE=${BUILD_ACCESSMODE} COMPILER=${LIKWID_COMPILER} install
   - /usr/local/bin/likwid-topology -c -C -g
   - /usr/local/bin/likwid-pin -p
   - sudo modprobe msr
