@@ -60,27 +60,10 @@ jobs:
 #     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
 #     arch: amd64
 #     dist: bionic
-#   - name: "PPC trusty"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy_scalar4
-#     arch: ppc64le
-#     dist: trusty
-#     addons:
-#        apt:
-#          sources:
-#            - ubuntu-toolchain-r-test
-#          packages:
-#            - gcc-7
-#   - name: "PPC xenial"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_scalar4
-#     arch: ppc64le
-#     dist: xenial
-#   - name: "PPC bionic"
-#     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_scalar4
-#     arch: ppc64le
-#     dist: bionic
-   - name: "PPC"
+   - name: "PPC xenial"
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCPOWER LIKWID_BENCHMARK=copy_vsx4
      arch: ppc64le
+     dist: xenial
 #   - name: "ARMv8 trusty"
 #     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
 #     arch: arm64
@@ -108,4 +91,4 @@ script:
 #  - make -C test streamGCC
 #  - /usr/local/bin/likwid-perfctr -i
 #  - echo "LIKWID_BENCHMARK=${LIKWID_BENCHMARK}"
-  - /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2
+  - if [ "${TRAVIS_CPU_ARCH}" != "ppc64le" ]; then /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2; fi
