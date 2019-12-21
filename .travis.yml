@@ -10,10 +10,16 @@ jobs:
      env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
      arch: amd64
      dist: trusty
-     addons:
-       apt:
-        - sources: [ ubuntu-toolchain-r-test ],
-        - packages: [ "gcc-7" ]
+     addons: {
+        apt: {
+            sources: [
+                ubuntu-toolchain-r-test
+            ],
+        packages: [
+            "gcc-7"
+        ]
+        }
+    }
    - os: linux
      env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7
      arch: amd64
