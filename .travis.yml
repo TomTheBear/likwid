@@ -108,4 +108,4 @@ script:
 #  - make -C test streamGCC
 #  - /usr/local/bin/likwid-perfctr -i
 #  - echo "LIKWID_BENCHMARK=${LIKWID_BENCHMARK}"
-#  - /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2
+  - /usr/local/bin/likwid-bench -t "${LIKWID_BENCHMARK}" -w N:100MB:2
