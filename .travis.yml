@@ -6,7 +6,7 @@ os: linux
 
 jobs:
   include:
-   - name: "AMD64 trusty accessdaemon"
+   - name: "AMD64 trusty accessdaemon gcc7"
      env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
      arch: amd64
      dist: trusty
@@ -16,7 +16,7 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-7
-   - name: "AMD64 trusty direct"
+   - name: "AMD64 trusty direct gcc7"
      env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
      arch: amd64
      dist: trusty
@@ -26,7 +26,7 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-7
-   - name: "AMD64 trusty perf_event"
+   - name: "AMD64 trusty perf_event gcc7"
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC COMPILER_BINARY=gcc-7 LIKWID_BENCHMARK=copy
      arch: amd64
      dist: trusty
@@ -36,6 +36,18 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-7
+   - name: "AMD64 trusty accessdaemon"
+     env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
+     arch: amd64
+     dist: trusty
+   - name: "AMD64 trusty direct"
+     env: BUILD_ACCESSMODE=direct LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
+     arch: amd64
+     dist: trusty
+   - name: "AMD64 trusty perf_event"
+     env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
+     arch: amd64
+     dist: trusty
    - name: "AMD64 xenial accessdaemon"
      env: BUILD_ACCESSMODE=accessdaemon LIKWID_COMPILER=GCC LIKWID_BENCHMARK=copy
      arch: amd64
@@ -76,17 +88,21 @@ jobs:
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
      arch: arm64
      dist: bionic
+before_install:
+  - sudo apt-get -y install openmpi-bin libopenmpi1.10
 script:
 #  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
   - echo "ACCESSMODE=${BUILD_ACCESSMODE}"
   - echo "COMPILER=${LIKWID_COMPILER}"
   - echo "COMPILER_BINARY=${COMPILER_BINARY}"
   - echo "LIKWID_BENCHMARK=${LIKWID_BENCHMARK}"
-#  - if [ ! -z "$COMPILER_BINARY" ]; then sed -i -e s+'CC  = gcc.*'+"CC  = $COMPILER_BINARY"+g make/include_${LIKWID_COMPILER}.mk; grep "CC" make/include_${LIKWID_COMPILER}.mk; fi
+  - if [ ! -z "$COMPILER_BINARY" ]; then sed -i -e s+'CC  = gcc.*'+"CC  = $COMPILER_BINARY"+g make/include_${LIKWID_COMPILER}.mk; fi
   - make ACCESSMODE="${BUILD_ACCESSMODE}" COMPILER="${LIKWID_COMPILER}"
   - sudo make ACCESSMODE="${BUILD_ACCESSMODE}" COMPILER="${LIKWID_COMPILER}" install
   - /usr/local/bin/likwid-topology -c -C -g
   - /usr/local/bin/likwid-pin -p
+  - /usr/local/bin/likwid-memsweeper -c 0
+  - /usr/local/bin/likwid-mpirun -np 2 -d hostname
   - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then sudo modprobe msr; ls -la /dev/cpu/*; ls -la /usr/local/sbin/*; fi
   - make -C test streamGCC
   - /usr/local/bin/likwid-perfctr -i
