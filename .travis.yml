@@ -89,7 +89,7 @@ jobs:
      arch: arm64
      dist: bionic
 before_install:
-  - sudo apt-get -y install openmpi
+  - sudo apt-get -y install mpi
 script:
 #  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
   - echo "ACCESSMODE=${BUILD_ACCESSMODE}"
