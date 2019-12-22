@@ -88,8 +88,8 @@ jobs:
      env: BUILD_ACCESSMODE=perf_event LIKWID_COMPILER=GCCARMv8 LIKWID_BENCHMARK=copy
      arch: arm64
      dist: bionic
-before_install:
-  - sudo apt-get -y install mpi
+#before_install:
+#  - sudo apt-get -y install mpi
 script:
 #  - sed -i -e s+'CC  = gcc.*'+'CC  = gcc-7'+g make/include_GCC.mk
   - echo "ACCESSMODE=${BUILD_ACCESSMODE}"
@@ -101,7 +101,7 @@ script:
   - sudo make ACCESSMODE="${BUILD_ACCESSMODE}" COMPILER="${LIKWID_COMPILER}" install
   - /usr/local/bin/likwid-topology -c -C -g
   - /usr/local/bin/likwid-pin -p
-  - /usr/local/bin/likwid-mpirun -np 2 -d hostname
+#  - /usr/local/bin/likwid-mpirun -np 2 -d hostname
   - if [ "${TRAVIS_CPU_ARCH}" == "amd64" ]; then sudo modprobe msr; ls -la /dev/cpu/*; ls -la /usr/local/sbin/*; fi
   - make -C test streamGCC
   - /usr/local/bin/likwid-perfctr -i
